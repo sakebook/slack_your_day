@@ -63,3 +63,15 @@ node_modules/
 
 # dotenv environment variables file
 .env
+
+# Files and directories created by pub
+.dart_tool
+.packages
+.pub/
+
+pubspec.lock
+
+.idea/
+
+# output
+build/
