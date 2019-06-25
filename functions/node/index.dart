@@ -32,8 +32,8 @@ void yourDay(ExpressHttpRequest request) async {
   _responseComplete(request, 200, postText);
 }
 
-
-void _responseComplete(ExpressHttpRequest request, int statusCode, String text) {
+void _responseComplete(
+    ExpressHttpRequest request, int statusCode, String text) {
   request.response.statusCode = statusCode;
   request.response.headers.add("Content-type", "application/json");
   request.response.writeln(_createJSON(text));
@@ -50,14 +50,14 @@ String _parseGroupId(String text) {
   return userGroupId;
 }
 
-
 dynamic _createJSON(String text) {
   final json = {"\"text\"": "\"$text\""};
   return json;
 }
 
 Future<List<dynamic>> _getUsers(String token, String usergroupId) async {
-  final url = "https://slack.com/api/usergroups.users.list?token=$token&usergroup=$usergroupId&pretty=1";
+  final url =
+      "https://slack.com/api/usergroups.users.list?token=$token&usergroup=$usergroupId&pretty=1";
   final response = await http.get(url);
   final Map<String, dynamic> jsonBody = json.decode(response.body);
   return jsonBody["users"] as List<dynamic>;
@@ -72,4 +72,3 @@ String _postTextFromUsers(List<dynamic> users, int limit) {
   }
   return text;
 }
-
