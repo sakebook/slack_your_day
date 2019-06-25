@@ -25,10 +25,11 @@ void yourDay(ExpressHttpRequest request) async {
     _responseComplete(request, 400, "Group not found");
     return;
   }
+  final triggerWord = jsonBody["trigger_word"] as String;
   final users = await _getUsers(token, userGroupId);
   print("userGroupId: $userGroupId");
   print("users: $users");
-  final postText = _postTextFromUsers(users, EMOJIS.length);
+  final postText = _postTextFromUsers(users, triggerWord, EMOJIS.length);
   _responseComplete(request, 200, postText);
 }
 
@@ -63,9 +64,9 @@ Future<List<dynamic>> _getUsers(String token, String usergroupId) async {
   return jsonBody["users"] as List<dynamic>;
 }
 
-String _postTextFromUsers(List<dynamic> users, int limit) {
+String _postTextFromUsers(List<dynamic> users, String triggerWord, int limit) {
   users.shuffle(Random());
-  String text = "本日の主役 ";
+  String text = "$triggerWord ";
   final length = (users.length < limit) ? users.length : limit;
   for (int i = 0; i < length; i++) {
     text += "${EMOJIS[i]} <@${users[i]}> ";
